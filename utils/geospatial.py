@@ -8,9 +8,12 @@ import plotly.graph_objects as go
 def unit():
     units = {'oil_quantity': 'unit_x',
              'renew_quantity': 'unit_y',
-             'co2_value': 'ton'}
+             'co2_value': 'Metrics, Ton'}
+    colors = {'oil_quantity': 'Plasma',
+              'renew_quantity': 'Blues',
+              'co2_value': 'Viridis'}
 
-    return units
+    return units, colors
 
 
 def merge_data(df1, df2):
@@ -50,18 +53,30 @@ def transform_data(df1, df2):
 
 def get_plotly_map(df, df1, col_target, title):
 
-    unit_data = unit()
+    unit_data, colors = unit()
+
+    if col_target in ['oil_quantity', 'renew_quantity']:
+        title_bar = df1[unit_data[col_target]].values[0].split(' ')[0]
+    else:
+        title_bar = 'Ton'
+
     fig = go.Figure(data=go.Choropleth(
                     locations=df['iso_alpha'],
                     z=df[col_target],
                     text=df['country'],
-                    colorscale='Blues',
+                    colorscale=colors[col_target],
                     autocolorscale=False,
-                    reversescale=True,
+                    reversescale=False,
                     marker_line_color='darkgray',
                     marker_line_width=0.5,
-                    colorbar_title=df1[unit_data[col_target]].values[0]
+                    colorbar_title=title_bar
     ))
+
+    fig.update_geos(
+        visible=True, resolution=50, scope="europe",
+        showcountries=True, countrycolor="Black",
+        showsubunits=True, subunitcolor="Blue"
+    )
 
     fig.update_layout(
         title_text=title,
@@ -73,7 +88,7 @@ def get_plotly_map(df, df1, col_target, title):
         ),
         annotations=[dict(
             x=0.55,
-            y=0.1,
+            y=0.01,
             xref='paper',
             yref='paper',
             text='Source: UN Big Data Hackathon</a>',
