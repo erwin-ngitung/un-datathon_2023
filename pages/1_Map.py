@@ -1,27 +1,36 @@
 import pandas as pd
 import streamlit as st
 from utils import geospatial as gs
+from utils import transformation as ts
 
 st1, st2, st3, st4, st5, st6, st7 = st.columns(7)
 
 with st1:
-    st1.image('images/un-datathon.png')
+    try:
+        st1.image('images/un-datathon.png')
+    except Exception as e:
+        st1.image('../images/un-datathon.png')
 
 st.markdown('<h3> CO2 Emission Based on Fossil Fuel and Renewable Energy Consumption </h3>',
             unsafe_allow_html=True)
 
-df_europe = pd.read_excel('dataset/list_europe.xlsx')
-dfs = pd.read_excel('dataset/final_dataset.xlsx')
-df_final = dfs[dfs['country'].isin(df_europe['country'])]
-col_data = ['country', 'year', 'oil_quantity', 'renew_quantity', 'co2_value']
+try:
+    df_europe = pd.read_excel('dataset/list_europe.xlsx')
+    dfs = pd.read_excel('dataset/final_dataset.xlsx')
+except Exception as e:
+    df_europe = pd.read_excel('../dataset/list_europe.xlsx')
+    dfs = pd.read_excel('../dataset/final_dataset.xlsx')
 
-country = df_final['country'].unique()
-year = df_final['year'].unique()
-fossil = df_final['commodity_transaction_x'].unique()
-renew = df_final['commodity_transaction_y'].unique()
+df_final = dfs[dfs['country'].isin(df_europe['country'])]
+col_data = ['country', 'year', 'oil_consumption', 'renewable_production', 'CO2_emission']
+
+country_list = df_final['country'].unique()
+year_list = df_final['year'].unique()
+fossil_list = df_final['commodity_transaction_x'].unique()
+renew_list = df_final['commodity_transaction_y'].unique()
 
 df_map = df_final[col_data].groupby(by=['country', 'year']).sum()
-df_map_final = gs.transform_data(df_map, df_final)
+df_map_final = ts.transform_data(df_map, df_final)
 
 st8, st9 = st.columns(2)
 with st8:
@@ -29,7 +38,7 @@ with st8:
                                   ['oil_quantity', 'renew_quantity'])
 with st9:
     add_year = st9.selectbox('Select the year:',
-                            year)
+                             year_list)
 
 st10, st11 = st.columns(2)
 with st10:
