@@ -2,6 +2,8 @@ import pandas as pd
 import streamlit as st
 from utils import geospatial as gs
 from utils import transformation as ts
+import plotly.express as px
+
 
 st1, st2, st3, st4, st5, st6, st7 = st.columns(7)
 
@@ -11,7 +13,7 @@ with st1:
     except Exception as e:
         st1.image('../images/un-datathon.png')
 
-st.markdown('<h3> CO2 Emission Based on Fossil Fuel and Renewable Energy Consumption </h3>',
+st.markdown('<h3 style=\'text-align:center;\'> CO2 Emission Based on Fossil Fuel and Renewable Energy Consumption </h3>',
             unsafe_allow_html=True)
 
 try:
@@ -35,7 +37,7 @@ df_map_final = ts.transform_data(df_map, df_final)
 st8, st9 = st.columns(2)
 with st8:
     add_commodity = st8.selectbox('Select the commodity:',
-                                  ['oil_quantity', 'renew_quantity'])
+                                  ['oil_consumption', 'renewable_production'])
 with st9:
     add_year = st9.selectbox('Select the year:',
                              year_list)
@@ -53,8 +55,33 @@ with st10:
 with st11:
     fig2 = gs.get_plotly_map(df_map_final,
                              df_final,
-                             'co2_value',
+                             'CO2_emission',
                              'Distribution CO2 Level')
     st11.plotly_chart(fig2,
                       theme='streamlit',
                       use_container_width=True)
+
+st.markdown('<h5 style=\'text-align:center;\'> Histogram CO2 Emission by Country </h5>',
+            unsafe_allow_html=True)
+
+df_hist = df_map_final[df_map_final['year'] == add_year].sort_values(by=['CO2_emission']).head()
+fig3 = px.bar(df_hist, x='country', y='CO2_emission')
+st.plotly_chart(fig3,
+                theme='streamlit',
+                use_container_width=True)
+
+st.markdown('<h5 style=\'text-align:center;\'> Plot Oil Consumption, Electricity Production, and CO2 Emission by Country </h5>',
+            unsafe_allow_html=True)
+
+df_line = df_final[col_data].groupby(by=['country', 'year']).sum()
+country = st.selectbox('Select the country:',
+                       country_list)
+df_lines = ts.transpose_data(df_line)
+fig4 = px.line(df_lines[df_lines['country'] == country],
+              x='year', y='value',
+              color='commodity',
+              markers=True)
+
+st.plotly_chart(fig4,
+                theme='streamlit',
+                use_container_width=True)

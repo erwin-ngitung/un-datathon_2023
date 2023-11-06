@@ -4,12 +4,12 @@ import plotly.graph_objects as go
 
 
 def unit():
-    units = {'oil_quantity': 'unit_x',
-             'renew_quantity': 'unit_y',
-             'co2_value': 'Metrics, Ton'}
-    colors = {'oil_quantity': 'Plasma',
-              'renew_quantity': 'Blues',
-              'co2_value': 'Viridis'}
+    units = {'oil_consumption': 'unit_x',
+             'renewable_production': 'unit_y',
+             'CO2_emission': 'Metrics, Ton'}
+    colors = {'oil_consumption': 'Plasma',
+              'renewable_production': 'Blues',
+              'CO2_emission': 'Viridis'}
 
     return units, colors
 
@@ -18,7 +18,7 @@ def get_plotly_map(df, df1, col_target, title):
 
     unit_data, colors = unit()
 
-    if col_target in ['oil_quantity', 'renew_quantity']:
+    if col_target in ['oil_consumption', 'renewable_production']:
         title_bar = df1[unit_data[col_target]].values[0].split(' ')[0]
     else:
         title_bar = 'Ton'
@@ -43,7 +43,7 @@ def get_plotly_map(df, df1, col_target, title):
 
     fig.update_layout(
         title_text=title,
-        title_x=0.5,
+        title_x=0.3,
         geo=dict(
             showframe=False,
             showcoastlines=False,

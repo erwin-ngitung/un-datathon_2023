@@ -11,7 +11,7 @@ with st1:
     except Exception as e:
         st1.image('../images/un-datathon.png')
 
-st.markdown('<h3> Forecasting CO2 Emission in 2 Years </h3>',
+st.markdown('<h3 style=\'text-align:center;\'> Forecasting CO2 Emission in 2 Years </h3>',
             unsafe_allow_html=True)
 
 try:
@@ -30,8 +30,8 @@ renew_list = df_final['commodity_transaction_y'].unique()
 
 df1 = df_final[col_data].groupby(by=['country', 'year']).sum()
 
-country= st.selectbox('Select the country:',
-                      country_list)
+country = st.selectbox('Select the country:',
+                       country_list)
 df2 = ts.transpose_data(df1)
 
 fig = px.line(df2[df2['country'] == country],

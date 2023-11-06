@@ -40,7 +40,7 @@ def transform_data(df1, df2):
 def transpose_data(df):
     df_new = pd.DataFrame()
 
-    col_target = ['oil_quantity', 'renew_quantity', 'co2_value']
+    col_target = ['oil_consumption', 'renewable_production', 'CO2_emission']
     country = []
     year = []
     value = []
