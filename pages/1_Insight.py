@@ -37,7 +37,7 @@ with st9:
 
 st10, st11 = st.columns(2)
 with st10:
-    fig1 = gs.get_plotly_map(df_map_final,
+    fig1 = gs.get_plotly_map(df_map_final[df_map_final['year'] == add_year],
                              df_final,
                              add_commodity,
                              'Distribution ' + ''.join(add_commodity.replace('_', ' ')).title())
@@ -46,7 +46,7 @@ with st10:
                       use_container_width=True)
 
 with st11:
-    fig2 = gs.get_plotly_map(df_map_final,
+    fig2 = gs.get_plotly_map(df_map_final[df_map_final['year'] == add_year],
                              df_final,
                              'CO2_emission',
                              'Distribution CO2 Level')
@@ -57,7 +57,10 @@ with st11:
 st.markdown('<h5 style=\'text-align:center;\'> Histogram CO2 Emission by Country (Top Five) </h5>',
             unsafe_allow_html=True)
 
-df_hist = df_map_final[df_map_final['year'] == add_year].sort_values(by=['CO2_emission']).head()
+df_hist = df_map_final.groupby(by=['country', 'year']).sum()
+df_hist['country'] = df_hist.index
+df_hist = df_hist.reset_index(drop=True)
+
 fig3 = px.bar(df_hist, x='country', y='CO2_emission')
 st.plotly_chart(fig3,
                 theme='streamlit',
