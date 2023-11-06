@@ -9,3 +9,5 @@ seaborn~=0.12.2
 statsmodels~=0.14.0
 pmdarima~=2.0.4
 numpy~=1.25.0
+streamlit_folium
+pycountry
