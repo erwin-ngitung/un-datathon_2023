@@ -9,7 +9,7 @@ sta, stb, stc = st.columns(3)
 
 with stb:
     try:
-        stb.image('images/un-datathon.png')
+        stb.image('./images/un-datathon.png')
     except Exception as e:
         stb.image('../images/un-datathon.png')
 
@@ -17,8 +17,8 @@ st.markdown('<h3 style=\'text-align:center;\'> CO2 Emission Based on Fossil Fuel
             unsafe_allow_html=True)
 
 try:
-    df_europe = pd.read_excel('dataset/list_europe.xlsx')
-    dfs = pd.read_excel('dataset/final_dataset.xlsx')
+    df_europe = pd.read_excel('./dataset/list_europe.xlsx')
+    dfs = pd.read_excel('./dataset/final_dataset.xlsx')
 except Exception as e:
     df_europe = pd.read_excel('../dataset/list_europe.xlsx')
     dfs = pd.read_excel('../dataset/final_dataset.xlsx')
@@ -78,9 +78,9 @@ country = st.selectbox('Select the country:',
                        country_list)
 df_lines = ts.transpose_data(df_line)
 fig4 = px.line(df_lines[df_lines['country'] == country],
-              x='year', y='value',
-              color='commodity',
-              markers=True)
+               x='year', y='value',
+               color='commodity',
+               markers=True)
 
 st.plotly_chart(fig4,
                 theme='streamlit',

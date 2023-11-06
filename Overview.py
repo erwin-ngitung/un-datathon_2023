@@ -15,7 +15,7 @@ sta, stb, stc = st.columns(3)
 
 with stb:
     try:
-        stb.image('images/un-datathon.png')
+        stb.image('./images/un-datathon.png')
     except Exception as e:
         stb.image('../images/un-datathon.png')
 
