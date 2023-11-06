@@ -2,14 +2,16 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 from utils import transformation as ts
+from utils import machine_learning as ml
 
-st1, st2, st3, st4, st5, st6, st7 = st.columns(7)
 
-with st1:
+sta, stb, stc = st.columns(3)
+
+with stb:
     try:
-        st1.image('images/un-datathon.png')
+        stb.image('images/un-datathon.png')
     except Exception as e:
-        st1.image('../images/un-datathon.png')
+        stb.image('../images/un-datathon.png')
 
 st.markdown('<h3 style=\'text-align:center;\'> Forecasting CO2 Emission in 2 Years </h3>',
             unsafe_allow_html=True)
@@ -28,17 +30,9 @@ country_list = df_final['country'].unique()
 fossil_list = df_final['commodity_transaction_x'].unique()
 renew_list = df_final['commodity_transaction_y'].unique()
 
-df1 = df_final[col_data].groupby(by=['country', 'year']).sum()
-
 country = st.selectbox('Select the country:',
                        country_list)
-df2 = ts.transpose_data(df1)
 
-fig = px.line(df2[df2['country'] == country],
-              x='year', y='value',
-              color='commodity',
-              markers=True)
+fig = ml.arima(df_final, country, 'CO2_emission')
 
-st.plotly_chart(fig,
-                theme='streamlit',
-                use_container_width=True)
+st.pyplot(fig)

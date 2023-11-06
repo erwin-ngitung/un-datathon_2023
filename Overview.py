@@ -10,10 +10,13 @@ import plotly.graph_objects as go
 from urllib.request import urlopen
 from streamlit_folium import st_folium
 
-st1, st2, st3, st4, st5, st6, st7 = st.columns(7)
+sta, stb, stc = st.columns(3)
 
-with st1:
-    st1.image('images/un-datathon.png')
+with stb:
+    try:
+        stb.image('images/un-datathon.png')
+    except Exception as e:
+        stb.image('../images/un-datathon.png')
 
-st.markdown('<h3> Overview of CO2 Emission based on Fossil Fuel and Renewable Energy Production Data </h3>',
+st.markdown('<h3 style=\'text-align:center;\'> Overview of CO2 Emission based on Fossil Fuel and Renewable Energy Production Data </h3>',
             unsafe_allow_html=True)

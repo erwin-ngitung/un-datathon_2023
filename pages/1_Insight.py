@@ -5,13 +5,13 @@ from utils import transformation as ts
 import plotly.express as px
 
 
-st1, st2, st3, st4, st5, st6, st7 = st.columns(7)
+sta, stb, stc = st.columns(3)
 
-with st1:
+with stb:
     try:
-        st1.image('images/un-datathon.png')
+        stb.image('images/un-datathon.png')
     except Exception as e:
-        st1.image('../images/un-datathon.png')
+        stb.image('../images/un-datathon.png')
 
 st.markdown('<h3 style=\'text-align:center;\'> CO2 Emission Based on Fossil Fuel and Renewable Energy Consumption </h3>',
             unsafe_allow_html=True)
@@ -61,7 +61,7 @@ with st11:
                       theme='streamlit',
                       use_container_width=True)
 
-st.markdown('<h5 style=\'text-align:center;\'> Histogram CO2 Emission by Country </h5>',
+st.markdown('<h5 style=\'text-align:center;\'> Histogram CO2 Emission by Country (Top Five) </h5>',
             unsafe_allow_html=True)
 
 df_hist = df_map_final[df_map_final['year'] == add_year].sort_values(by=['CO2_emission']).head()
@@ -70,7 +70,7 @@ st.plotly_chart(fig3,
                 theme='streamlit',
                 use_container_width=True)
 
-st.markdown('<h5 style=\'text-align:center;\'> Plot Oil Consumption, Electricity Production, and CO2 Emission by Country </h5>',
+st.markdown('<h5 style=\'text-align:center;\'> Line Chart Oil Consumption, Electricity Production, and CO2 Emission by Country </h5>',
             unsafe_allow_html=True)
 
 df_line = df_final[col_data].groupby(by=['country', 'year']).sum()
