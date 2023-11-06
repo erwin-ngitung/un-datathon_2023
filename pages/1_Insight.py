@@ -57,10 +57,7 @@ with st11:
 st.markdown('<h5 style=\'text-align:center;\'> Histogram CO2 Emission by Country (Top Five) </h5>',
             unsafe_allow_html=True)
 
-df_hist = df_map_final.groupby(by=['country', 'year']).sum()
-df_hist['country'] = df_hist.index
-df_hist = df_hist.reset_index(drop=True)
-
+df_hist = df_map_final[df_map_final['year'] == add_year].sort_values(by=['CO2_emission']).head()
 fig3 = px.bar(df_hist, x='country', y='CO2_emission')
 st.plotly_chart(fig3,
                 theme='streamlit',
