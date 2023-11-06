@@ -8,20 +8,14 @@ from utils import machine_learning as ml
 sta, stb, stc = st.columns(3)
 
 with stb:
-    try:
-        stb.image('./images/un-datathon.png')
-    except Exception as e:
-        stb.image('../images/un-datathon.png')
+    stb.image('./images/un-datathon.png')
+
 
 st.markdown('<h3 style=\'text-align:center;\'> Forecasting CO2 Emission in 2 Years </h3>',
             unsafe_allow_html=True)
 
-try:
-    df_europe = pd.read_excel('./dataset/list_europe.xlsx')
-    dfs = pd.read_excel('./dataset/final_dataset.xlsx')
-except Exception as e:
-    df_europe = pd.read_excel('../dataset/list_europe.xlsx')
-    dfs = pd.read_excel('../dataset/final_dataset.xlsx')
+df_europe = pd.read_excel('./dataset/list_europe.xlsx')
+dfs = pd.read_excel('./dataset/final_dataset.xlsx')
 
 df_final = dfs[dfs['country'].isin(df_europe['country'])]
 col_data = ['country', 'year', 'oil_consumption', 'renewable_production', 'CO2_emission']
