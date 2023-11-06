@@ -11,3 +11,4 @@ pmdarima~=2.0.4
 numpy~=1.25.0
 streamlit_folium
 pycountry
+openpyxl

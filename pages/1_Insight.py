@@ -13,8 +13,8 @@ with stb:
 st.markdown('<h3 style=\'text-align:center;\'> CO2 Emission Based on Fossil Fuel and Renewable Energy Consumption </h3>',
             unsafe_allow_html=True)
 
-df_europe = pd.read_excel('./dataset/list_europe.xlsx')
-dfs = pd.read_excel('./dataset/final_dataset.xlsx')
+df_europe = pd.read_excel('./dataset/list_europe.xlsx', engine='openpyxl')
+dfs = pd.read_excel('./dataset/final_dataset.xlsx', engine='openpyxl')
 
 df_final = dfs[dfs['country'].isin(df_europe['country'])]
 col_data = ['country', 'year', 'oil_consumption', 'renewable_production', 'CO2_emission']
