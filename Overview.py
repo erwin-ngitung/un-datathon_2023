@@ -10,6 +10,7 @@ import plotly.graph_objects as go
 from urllib.request import urlopen
 from streamlit_folium import st_folium
 
+
 sta, stb, stc = st.columns(3)
 
 with stb:
